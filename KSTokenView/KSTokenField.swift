@@ -241,6 +241,9 @@ open class KSTokenField: UITextField {
       if (!tokens.contains(token)) {
          token.addTarget(self, action: #selector(KSTokenField.tokenTouchDown(_:)), for: .touchDown)
          token.addTarget(self, action: #selector(KSTokenField.tokenTouchUpInside(_:)), for: .touchUpInside)
+         token.crossLabel.isUserInteractionEnabled = true
+         let tapToken = UITapGestureRecognizer(target: self, action: #selector(KSTokenField.tokenTouchDelete(_:)))
+         token.crossLabel.addGestureRecognizer(tapToken)
          tokens.append(token)
          _insertToken(token)
       }
@@ -401,7 +404,7 @@ open class KSTokenField: UITextField {
       var tokenPosition = CGPoint(x: _marginX!, y: _marginY!)
       
       for token: KSToken in tokens {
-         let width = KSUtils.getRect(token.title as NSString, width: bounds.size.width, font: _font!).size.width + ceil(_paddingX!*2+1)
+         let width = KSUtils.getRect(token.title as NSString, width: bounds.size.width, font: _font!).size.width + ceil(_paddingX!*2+1) + 8
          let tokenWidth = min(width, token.maxWidth)
          
          // Add token at specific position
@@ -663,6 +666,12 @@ open class KSTokenField: UITextField {
    
    func tokenTouchUpInside(_ token: KSToken) {
       selectToken(token)
+   }
+    
+   func tokenTouchDelete(_ tap: UITapGestureRecognizer) {
+        if let token = tap.view?.superview as? KSToken {
+            parentView?.deleteToken(token)
+        }
    }
    
    override open func beginTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {

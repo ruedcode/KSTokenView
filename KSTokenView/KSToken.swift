@@ -40,6 +40,7 @@ open class KSToken : UIControl {
          return title
       }
    }
+    
    
    /// default is ""
    open var title = ""
@@ -70,6 +71,8 @@ open class KSToken : UIControl {
    
    ///Token border color
    open var borderColor: UIColor = UIColor.black
+    
+   open let crossLabel = UILabel()
    
    /// default is 200. Maximum width of token. After maximum limit is reached title is truncated at end with '...'
    fileprivate var _maxWidth: CGFloat? = 200
@@ -109,6 +112,11 @@ open class KSToken : UIControl {
       self.object = object
       super.init(frame: CGRect.zero)
       backgroundColor = UIColor.clear
+      crossLabel.text = "×"
+      crossLabel.font =  UIFont.systemFont(ofSize: 14)
+      crossLabel.textColor = tokenTextColor
+      crossLabel.textAlignment = .center
+      addSubview(crossLabel)
    }
    
    //MARK: - Drawing code
@@ -168,9 +176,11 @@ open class KSToken : UIControl {
       let textHeight: CGFloat = KSUtils.getRect(rectangleTextContent as NSString, width: rect.width, height: maxDrawableHeight , font: font).size.height
       
       
-      let textRect = CGRect(x: rect.minX + paddingX, y: rect.minY + (maxDrawableHeight - textHeight) / 2, width: min(maxWidth, rect.width) - (paddingX*2), height: maxDrawableHeight)
+      let textRect = CGRect(x: rect.minX + paddingX + 4, y: rect.minY + (maxDrawableHeight - textHeight) / 2 - 1, width: min(maxWidth, rect.width) - (paddingX*2), height: maxDrawableHeight)
       
       rectangleTextContent.draw(in: textRect, withAttributes: rectangleFontAttributes)
+    
+      crossLabel.frame = CGRect(x: 4, y: -1, width: 16, height: frame.height)
       
       #if swift(>=2.3)
          context!.saveGState()
