@@ -310,6 +310,15 @@ open class KSTokenView: UIView {
          }
       }
    }
+    
+    /// default is "To: "
+    open var promptImage: UIImage? {
+        didSet {
+            if (oldValue != promptImage) {
+                _updateTokenField()
+            }
+        }
+    }
    
    /// default is true. If false, cannot be edited
    open var editable: Bool = true {
@@ -393,6 +402,8 @@ open class KSTokenView: UIView {
       _tokenField.tokenFieldDelegate = self
       _tokenField.placeholder = ""
       _tokenField.autoresizingMask = [.flexibleWidth]
+      _tokenField.clearButtonMode = .whileEditing
+    
       _updateTokenField()
       addSubview(_tokenField)
       
@@ -642,6 +653,11 @@ open class KSTokenView: UIView {
          _removeToken(token!)
       }
    }
+
+    
+    open func tokenize() {
+        _tokenField.tokenize()
+    }
    
    /**
    Returns Selected KSToken object
@@ -684,6 +700,12 @@ open class KSTokenView: UIView {
       }
       return false
    }
+    
+    public func textFieldShouldClear(_ textField: UITextField) -> Bool {
+        deleteAllTokens()
+        _changeHeight(textField.frame.height)
+        return true
+    }
    
    //MARK: - Search
    //__________________________________________________________________________________

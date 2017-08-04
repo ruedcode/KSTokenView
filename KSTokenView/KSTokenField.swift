@@ -122,6 +122,7 @@ open class KSTokenField: UITextField {
             placeHolderColor = tokenView!.placeholderColor
             promptTextColor = tokenView!.promptColor
             _setPromptText(tokenView!.promptText)
+            _setPromptImage(tokenView!.promptImage)
             
             if (_setupCompleted) {
                updateLayout()
@@ -178,6 +179,7 @@ open class KSTokenField: UITextField {
       addSubview(_scrollView)
       
       addTarget(self, action: #selector(KSTokenField.tokenFieldTextDidChange(_:)), for: UIControlEvents.editingChanged)
+    
    }
    
    fileprivate func _setScrollRect() {
@@ -241,9 +243,9 @@ open class KSTokenField: UITextField {
       if (!tokens.contains(token)) {
          token.addTarget(self, action: #selector(KSTokenField.tokenTouchDown(_:)), for: .touchDown)
          token.addTarget(self, action: #selector(KSTokenField.tokenTouchUpInside(_:)), for: .touchUpInside)
-         token.crossLabel.isUserInteractionEnabled = true
-         let tapToken = UITapGestureRecognizer(target: self, action: #selector(KSTokenField.tokenTouchDelete(_:)))
-         token.crossLabel.addGestureRecognizer(tapToken)
+//         token.crossLabel.isUserInteractionEnabled = true
+//         let tapToken = UITapGestureRecognizer(target: self, action: #selector(KSTokenField.tokenTouchDelete(_:)))
+//         token.crossLabel.addGestureRecognizer(tapToken)
          tokens.append(token)
          _insertToken(token)
       }
@@ -502,7 +504,8 @@ open class KSTokenField: UITextField {
    }
    
    override open func leftViewRect(forBounds bounds: CGRect) -> CGRect {
-      return CGRect(x: _marginX!, y: (_selfFrame != nil) ? (_selfFrame!.height - _leftViewRect().height)*0.5: (bounds.height - _leftViewRect().height)*0.5, width: _leftViewRect().width, height: ceil(_leftViewRect().height))
+        let rect = CGRect(x: _marginX!, y: (_scrollView.frame.height - _leftViewRect().height)*0.5, width: _leftViewRect().width, height: ceil(_leftViewRect().height))
+        return rect
    }
    
    override open func textRect(forBounds bounds: CGRect) -> CGRect {
@@ -527,12 +530,14 @@ open class KSTokenField: UITextField {
    }
    
    fileprivate func _rightViewRect() -> CGRect {
-      if (rightViewMode == .never ||
-         rightViewMode == .unlessEditing && isEditing ||
-         rightViewMode == .whileEditing && !isEditing) {
-            return .zero
-      }
-      return rightView!.bounds
+//      if (rightViewMode == .never ||
+//         rightViewMode == .unlessEditing && isEditing) {
+//            return .zero
+//      }
+        if let view = rightView {
+            return view.bounds
+        }
+    return CGRect(x:0, y:0, width:24, height:24)
    }
    
    
@@ -559,6 +564,23 @@ open class KSTokenField: UITextField {
       }
       _setScrollRect()
    }
+    
+    fileprivate func _setPromptImage(_ image: UIImage?) {
+        if (image != nil) {
+            var label = leftView
+            if !(label is UIButton) {
+                label = UIButton(frame: .zero)
+                label?.contentMode = .center
+                label?.frame.origin.y = _marginY!
+                label?.frame.origin.x += _marginX!
+                leftViewMode = .always
+            }
+            (label as! UIButton).setImage(image, for:.normal)
+            (label as! UIButton).frame =  CGRect(x: 7.5, y:7.5, width: 20.5, height: 15)
+            leftView = label
+            _setScrollRect()
+        }
+    }
    
    
    //MARK: - Placeholder
@@ -684,6 +706,8 @@ open class KSTokenField: UITextField {
    func tokenFieldTextDidChange(_ textField: UITextField) {
       _updatePlaceHolderVisibility()
    }
+    
+    
    
    // MARK: - Other Methods
    
