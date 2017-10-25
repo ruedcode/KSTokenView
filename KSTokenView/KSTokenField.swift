@@ -372,8 +372,9 @@ open class KSTokenField: UITextField {
       }
       
       if _caretPoint != .zero {
-         let tokensMaxY = max(_caretPoint!.y, _selfFrame!.height)
-         
+		let tokensMaxY = _caretPoint!.y
+//         let tokensMaxY = max(_caretPoint!.y, _selfFrame!.height)
+		
          if (frame.size.height != tokensMaxY) {
             tokenFieldDelegate?.tokenFieldShouldChangeHeight(tokensMaxY)
          }
@@ -429,12 +430,12 @@ open class KSTokenField: UITextField {
          tokenPosition.y += (tokenHeight + _marginY!);
       }
       
-      var positionY = (lineNumber == 1 && tokens.count == 0) ? _selfFrame!.size.height: (tokenPosition.y + tokenHeight + _marginY!)
+      var positionY = (lineNumber == 1 && tokens.count == 0) ? 28.5: (tokenPosition.y + tokenHeight + _marginY!)
       _scrollView.contentSize = CGSize(width: _scrollView.frame.width, height: positionY)
       if (positionY > maximumHeight) {
          positionY = maximumHeight
       }
-      
+	
       _scrollView.frame.size = CGSize(width: _scrollView.frame.width, height: positionY)
       scrollViewScrollToEnd()
       
