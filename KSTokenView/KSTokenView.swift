@@ -96,6 +96,7 @@ open class KSTokenView: UIView {
    //__________________________________________________________________________________
    //
    fileprivate var _tokenField: KSTokenField!
+   fileprivate var _clearButton: UIButton!
    fileprivate var _searchTableView: UITableView = UITableView(frame: .zero, style: UITableViewStyle.plain)
    fileprivate var _resultArray = [AnyObject]()
    fileprivate var _showingSearchResult = false
@@ -145,6 +146,13 @@ open class KSTokenView: UIView {
          _updateTokenField()
       }
    }
+    
+    
+    open var clearImage : UIImage? {
+        didSet {
+            _clearButton.setImage(clearImage, for: .normal)
+        }
+    }
    
    /// Default is whiteColor
    override open var backgroundColor: UIColor? {
@@ -396,17 +404,33 @@ open class KSTokenView: UIView {
    fileprivate func _commonSetup() {
       backgroundColor = UIColor.clear
       clipsToBounds = true
+    
       _tokenField = KSTokenField(frame: CGRect(x: 0, y: 0, width: self.bounds.width, height: self.bounds.height))
       _tokenField.textColor = UIColor.black
       _tokenField.isEnabled = true
       _tokenField.tokenFieldDelegate = self
       _tokenField.placeholder = ""
       _tokenField.autoresizingMask = [.flexibleWidth]
-      _tokenField.clearButtonMode = .whileEditing
+//      _tokenField.clearButtonMode = .whileEditing
+
     
       _updateTokenField()
       addSubview(_tokenField)
-      
+    
+      _clearButton = UIButton()
+      _clearButton.isHidden = true
+      _clearButton.translatesAutoresizingMaskIntoConstraints = false
+//      _clearButton.backgroundColor = UIColor.red
+      _clearButton.tintColor = UIColor.darkGray
+      _clearButton.contentMode = .center
+      _clearButton.addTarget(self, action: #selector(self.deleteAllTokens), for: .touchUpInside)
+    
+      addSubview(_clearButton)
+
+      addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:[button(==24)]-|", options: [], metrics: nil, views: ["button": _clearButton]))
+      addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[button(==24)]", options: [], metrics: nil, views: ["button": _clearButton]))
+      addConstraint(NSLayoutConstraint(item: _clearButton, attribute: .centerY, relatedBy: .equal, toItem: _tokenField, attribute: .centerY, multiplier: 1, constant: 0))
+    
       _indicator.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
       _indicator.hidesWhenStopped = true
       _indicator.stopAnimating()
@@ -673,6 +697,7 @@ open class KSTokenView: UIView {
    //__________________________________________________________________________________
    //
    func tokenFieldDidBeginEditing(_ tokenField: KSTokenField) {
+      _clearButton.isHidden = false
       delegate?.tokenViewDidBeginEditing?(self)
       tokenField.tokenize()
       if (minimumCharactersToSearch == 0) {
@@ -681,6 +706,7 @@ open class KSTokenView: UIView {
    }
    
    func tokenFieldDidEndEditing(_ tokenField: KSTokenField) {
+      _clearButton.isHidden = true
       delegate?.tokenViewDidEndEditing?(self)
       tokenField.untokenize()
       _hideSearchResults()
