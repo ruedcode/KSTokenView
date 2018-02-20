@@ -484,6 +484,7 @@ open class KSTokenField: UITextField {
       }
       _scrollView.setContentOffset(bottomOffset, animated: true)
    }
+    
    
    //MARK: - Text Rect
    /*
@@ -494,20 +495,24 @@ open class KSTokenField: UITextField {
       if (!_setupCompleted) {return .zero}
       
       if (tokens.count == 0 || _caretPoint == nil) {
-         return CGRect(x: _leftViewRect().width + _marginX! + _bufferX!, y: _leftViewRect().origin.y, width: bounds.size.width-5, height: bounds.size.height)
+         return CGRect(x: _leftViewRect().width + _marginX! + _bufferX!, y: _leftViewRect().origin.y, width: bounds.size.width-5 - 30, height: bounds.size.height)
       }
       
       if (tokens.count != 0 && _state == .closed) {
-         return CGRect(x: _leftViewRect().maxX + _marginX! + _bufferX!, y: _leftViewRect().origin.y, width: (frame.size.width - _caretPoint!.x - _marginX!), height: bounds.size.height)
+         return CGRect(x: _leftViewRect().maxX + _marginX! + _bufferX!, y: _leftViewRect().origin.y, width: (frame.size.width - _caretPoint!.x - _marginX!) - 30, height: bounds.size.height)
       }
       
-      return CGRect(x: _caretPoint!.x, y: floor((_caretPoint!.y - font!.lineHeight - (_marginY!))), width: (frame.size.width - _caretPoint!.x - _marginX!), height: bounds.size.height)
+      return CGRect(x: _caretPoint!.x, y: floor((_caretPoint!.y - font!.lineHeight - (_marginY!))), width: (frame.size.width - _caretPoint!.x - _marginX!) - 30, height: bounds.size.height)
    }
    
    override open func leftViewRect(forBounds bounds: CGRect) -> CGRect {
         let rect = CGRect(x: _marginX!, y: (_scrollView.frame.height - _leftViewRect().height)*0.5, width: _leftViewRect().width, height: ceil(_leftViewRect().height))
         return rect
    }
+    
+    open override func rightViewRect(forBounds bounds: CGRect) -> CGRect {
+        return CGRect(x: 0, y: 0, width: 40, height: bounds.size.height)
+    }
    
    override open func textRect(forBounds bounds: CGRect) -> CGRect {
       return _textRectWithBounds(bounds)
@@ -538,7 +543,7 @@ open class KSTokenField: UITextField {
         if let view = rightView {
             return view.bounds
         }
-    return CGRect(x:0, y:0, width:24, height:24)
+    return CGRect(x:0, y:0, width:40, height:30)
    }
    
    
