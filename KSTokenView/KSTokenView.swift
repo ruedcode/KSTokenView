@@ -110,7 +110,7 @@ open class KSTokenView: UIView {
    //
    
    /// returns the value of field
-   open var text : String {
+   @objc open var text : String {
       get {
          return _tokenField.text!.substring(with: _tokenField.text!.characters.index(_tokenField.text!.startIndex, offsetBy: 1)..<self._tokenField.text!.endIndex)         
       }
@@ -120,42 +120,42 @@ open class KSTokenView: UIView {
    }
    
    /// default is true. token can be deleted with keyboard 'x' button
-   open var shouldDeleteTokenOnBackspace = true
+   @objc open var shouldDeleteTokenOnBackspace = true
    
    /// Only works for iPhone now, not iPad devices. default is false. If true, search results are hidden when one of them is selected
-   open var shouldHideSearchResultsOnSelect = false
+   @objc open var shouldHideSearchResultsOnSelect = false
    
    /// default is false. If true, already added token still appears in search results
-   open var shouldDisplayAlreadyTokenized = false
+   @objc open var shouldDisplayAlreadyTokenized = false
    
    /// default is ture. Sorts the search results alphabatically according to title provided by tokenView(_:displayTitleForObject) delegate
-   open var shouldSortResultsAlphabatically = true
+   @objc open var shouldSortResultsAlphabatically = true
    
    /// default is true. If false, token can only be added from picking search results. All the text input would be ignored
-   open var shouldAddTokenFromTextInput = true
+   @objc open var shouldAddTokenFromTextInput = true
    
    /// default is 1. If set to 0, it shows all search results without typing anything
-   open var minimumCharactersToSearch = 1
+   @objc open var minimumCharactersToSearch = 1
    
    /// default is nil
-   weak open var delegate: KSTokenViewDelegate?
+   @objc weak open var delegate: KSTokenViewDelegate?
    
    /// default is .Vertical.
-   open var direction: KSTokenViewScrollDirection = .vertical {
+   @objc open var direction: KSTokenViewScrollDirection = .vertical {
       didSet {
          _updateTokenField()
       }
    }
     
     
-    open var clearImage : UIImage? {
+   @objc open var clearImage : UIImage? {
         didSet {
             _clearButton.setImage(clearImage, for: .normal)
         }
     }
    
    /// Default is whiteColor
-   override open var backgroundColor: UIColor? {
+   @objc override open var backgroundColor: UIColor? {
       didSet {
          if (oldValue != backgroundColor && _tokenField != nil) {
             _tokenField.backgroundColor = backgroundColor
@@ -164,7 +164,7 @@ open class KSTokenView: UIView {
    }
    
    /// Default is (TokenViewWidth, 200)
-   open var searchResultHeight: CGFloat = 200 {
+   @objc open var searchResultHeight: CGFloat = 200 {
       didSet {
         _searchResultHeight = searchResultHeight
         _searchTableView.frame.size.height = searchResultHeight
@@ -179,28 +179,28 @@ open class KSTokenView: UIView {
    }
    
    /// default is UIColor.blueColor()
-   open var activityIndicatorColor: UIColor = UIColor.blue {
+   @objc open var activityIndicatorColor: UIColor = UIColor.blue {
       didSet {
          _indicator.color = activityIndicatorColor
       }
    }
    
    /// default is 120.0. After maximum limit is reached, tokens starts scrolling vertically
-   open var maximumHeight: CGFloat = 120.0 {
+   @objc open var maximumHeight: CGFloat = 120.0 {
       didSet {
          _tokenField.maximumHeight = maximumHeight
       }
    }
    
    /// default is UIColor.grayColor()
-   open var cursorColor: UIColor = UIColor.gray {
+   @objc open var cursorColor: UIColor = UIColor.gray {
       didSet {
          _updateTokenField()
       }
    }
    
    /// default is 10.0. Horizontal padding of title
-   open var paddingX: CGFloat = 10.0 {
+   @objc open var paddingX: CGFloat = 10.0 {
       didSet {
          if (oldValue != paddingX) {
             _updateTokenField()
@@ -209,7 +209,7 @@ open class KSTokenView: UIView {
    }
    
    /// default is 2.0. Vertical padding of title
-   open var paddingY: CGFloat = 2.0 {
+   @objc open var paddingY: CGFloat = 2.0 {
       didSet {
          if (oldValue != paddingY) {
             _updateTokenField()
@@ -218,7 +218,7 @@ open class KSTokenView: UIView {
    }
    
    /// default is 5.0. Horizontal margin between tokens
-   open var marginX: CGFloat = 5.0 {
+   @objc open var marginX: CGFloat = 5.0 {
       didSet {
          if (oldValue != marginX) {
             _updateTokenField()
@@ -227,7 +227,7 @@ open class KSTokenView: UIView {
    }
    
    /// default is 5.0. Vertical margin between tokens
-   open var marginY: CGFloat = 5.0 {
+   @objc open var marginY: CGFloat = 5.0 {
       didSet {
          if (oldValue != marginY) {
             _updateTokenField()
@@ -236,7 +236,7 @@ open class KSTokenView: UIView {
    }
     
     /// default is 0. Horizontal buffer between prompt and content
-    open var bufferX: CGFloat = 0.0 {
+    @objc open var bufferX: CGFloat = 0.0 {
         didSet {
             if (oldValue != bufferX) {
                 _updateTokenField()
@@ -245,7 +245,7 @@ open class KSTokenView: UIView {
     }
    
    /// default is UIFont.systemFontOfSize(16)
-   open var font: UIFont = UIFont.systemFont(ofSize: 16) {
+   @objc open var font: UIFont = UIFont.systemFont(ofSize: 16) {
       didSet {
          if (oldValue != font) {
             _updateTokenField()
@@ -254,7 +254,7 @@ open class KSTokenView: UIView {
    }
    
    /// default is 50.0. Caret moves to new line if input width is less than this value
-   open var minWidthForInput: CGFloat = 50.0 {
+   @objc open var minWidthForInput: CGFloat = 50.0 {
       didSet {
          if (oldValue != minWidthForInput) {
             _updateTokenField()
@@ -263,7 +263,7 @@ open class KSTokenView: UIView {
    }
    
    /// default is ", ". Used to separate titles when untoknized
-   open var separatorText: String = ", " {
+   @objc open var separatorText: String = ", " {
       didSet {
          if (oldValue != separatorText) {
             _updateTokenField()
@@ -272,10 +272,10 @@ open class KSTokenView: UIView {
    }
    
    /// An array of string values. Default values are "." and ",". Token is created with typed text, when user press any of the character mentioned in this Array
-   open var tokenizingCharacters = [".", ","]
+   @objc open var tokenizingCharacters = [".", ","]
    
    /// default is 0.25.
-   open var animateDuration: TimeInterval = 0.25 {
+   @objc open var animateDuration: TimeInterval = 0.25 {
       didSet {
          if (oldValue != animateDuration) {
             _updateTokenField()
@@ -284,7 +284,7 @@ open class KSTokenView: UIView {
    }
    
    /// default is true. When resignFirstResponder is called tokens are removed and description is displayed.
-   open var removesTokensOnEndEditing: Bool = true {
+   @objc open var removesTokensOnEndEditing: Bool = true {
       didSet {
          if (oldValue != removesTokensOnEndEditing) {
             _updateTokenField()
@@ -293,7 +293,7 @@ open class KSTokenView: UIView {
    }
    
    /// Default is "selections"
-   open var descriptionText: String = "selections" {
+   @objc open var descriptionText: String = "selections" {
       didSet {
          if (oldValue != descriptionText) {
             _updateTokenField()
@@ -302,7 +302,7 @@ open class KSTokenView: UIView {
    }
    
    /// set -1 for unlimited.
-   open var maxTokenLimit: Int = -1 {
+   @objc open var maxTokenLimit: Int = -1 {
       didSet {
          if (oldValue != maxTokenLimit) {
             _updateTokenField()
@@ -311,7 +311,7 @@ open class KSTokenView: UIView {
    }
    
    /// default is "To: "
-   open var promptText: String = "To: " {
+   @objc open var promptText: String = "To: " {
       didSet {
          if (oldValue != promptText) {
             _updateTokenField()
@@ -320,7 +320,7 @@ open class KSTokenView: UIView {
    }
     
     /// default is "To: "
-    open var promptImage: UIImage? {
+    @objc open var promptImage: UIImage? {
         didSet {
             if (oldValue != promptImage) {
                 _updateTokenField()
@@ -329,14 +329,14 @@ open class KSTokenView: UIView {
     }
    
    /// default is true. If false, cannot be edited
-   open var editable: Bool = true {
+   @objc open var editable: Bool = true {
       didSet {
          _tokenField.isEnabled = editable
       }
    }
    
    /// default is nil
-   open var placeholder: String {
+   @objc open var placeholder: String {
       get {
          return _tokenField.placeholder!
       }
@@ -346,21 +346,21 @@ open class KSTokenView: UIView {
    }
 
     /// default is UIColor.grayColor()
-    open var promptColor: UIColor = UIColor.gray {
+    @objc open var promptColor: UIColor = UIColor.gray {
         didSet {
             _updateTokenField()
         }
     }
 
     /// default is UIColor.grayColor()
-    open var placeholderColor: UIColor = UIColor.gray {
+    @objc open var placeholderColor: UIColor = UIColor.gray {
         didSet {
             _updateTokenField()
         }
     }
    
    /// default is .Rounded, creates rounded corner
-   open var style: KSTokenViewStyle = .rounded {
+   @objc open var style: KSTokenViewStyle = .rounded {
       didSet(newValue) {
          _updateTokenFieldLayout(style)
       }
@@ -528,7 +528,7 @@ open class KSTokenView: UIView {
    
    - returns: Array of KSToken objects
    */
-   open func tokens () -> Array<KSToken>? {
+   @objc open func tokens () -> Array<KSToken>? {
       return _tokenField.tokens
    }
    
@@ -562,7 +562,7 @@ open class KSTokenView: UIView {
    
    - returns: KSToken object
    */
-   @discardableResult open func addTokenWithTitle(_ title: String, tokenObject: AnyObject? = nil) -> KSToken? {
+   @discardableResult @objc open func addTokenWithTitle(_ title: String, tokenObject: AnyObject? = nil) -> KSToken? {
       let token = KSToken(title: title, object: tokenObject)
       return addToken(token)
    }
@@ -575,7 +575,7 @@ open class KSTokenView: UIView {
    
    - returns: KSToken object
    */
-   @discardableResult open func addToken(_ token: KSToken) -> KSToken? {
+   @discardableResult @objc open func addToken(_ token: KSToken) -> KSToken? {
       if (!_canAddMoreToken()) {
          return nil
       }
@@ -613,7 +613,7 @@ open class KSTokenView: UIView {
    
    - parameter token: KSToken object
    */
-   open func deleteToken(_ token: KSToken) {
+   @objc open func deleteToken(_ token: KSToken) {
       _removeToken(token)
    }
    
@@ -622,7 +622,7 @@ open class KSTokenView: UIView {
    
    - parameter object: Custom object
    */
-   open func deleteTokenWithObject(_ object: AnyObject?) {
+   @objc open func deleteTokenWithObject(_ object: AnyObject?) {
       if object == nil {return}
       for token in _tokenField.tokens {
          if (token.object!.isEqual(object)) {
@@ -635,7 +635,7 @@ open class KSTokenView: UIView {
    /**
    Deletes all added tokens. This doesn't delete sticky token
    */
-   open func deleteAllTokens() {
+	@objc open func deleteAllTokens() {
       if (_tokenField.tokens.count == 0) {return}
       var shouldDeleteAllTokens: Bool? = true
       
@@ -661,7 +661,7 @@ open class KSTokenView: UIView {
    /**
    Deletes last added KSToken object
    */
-   open func deleteLastToken() {
+   @objc open func deleteLastToken() {
       let token: KSToken? = _lastToken()
       if token != nil {
          _removeToken(token!)
@@ -671,7 +671,7 @@ open class KSTokenView: UIView {
    /**
    Deletes selected KSToken object
    */
-   open func deleteSelectedToken() {
+   @objc open func deleteSelectedToken() {
       let token: KSToken? = selectedToken()
       if (token != nil) {
          _removeToken(token!)
@@ -679,7 +679,7 @@ open class KSTokenView: UIView {
    }
 
     
-    open func tokenize() {
+    @objc open func tokenize() {
         _tokenField.tokenize()
     }
    
@@ -688,7 +688,7 @@ open class KSTokenView: UIView {
    
    - returns: KSToken object
    */
-   open func selectedToken() -> KSToken? {
+   @objc open func selectedToken() -> KSToken? {
       return _tokenField.selectedToken
    }
    
