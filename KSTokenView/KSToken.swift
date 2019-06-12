@@ -43,40 +43,40 @@ open class KSToken : UIControl {
     
    
    /// default is ""
-   open var title = ""
+   @objc open var title = ""
    
    /// default is nil. Any Custom object.
-   open var object: AnyObject?
+   @objc open var object: AnyObject?
    
    /// default is false. If set to true, token can not be deleted
-   open var sticky = false
+   @objc open var sticky = false
    
    /// Token Title color
-   open var tokenTextColor = UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1)
+   @objc open var tokenTextColor = UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1)
    
    /// Token background color
-   open var tokenBackgroundColor = UIColor(red: 50/255, green: 50/255, blue: 255/255, alpha: 1)
+   @objc open var tokenBackgroundColor = UIColor(red: 50/255, green: 50/255, blue: 255/255, alpha: 1)
    
    /// Token title color in selected state
-   open var tokenTextHighlightedColor: UIColor?
+   @objc open var tokenTextHighlightedColor: UIColor?
    
    /// Token backgrould color in selected state
-   open var tokenBackgroundHighlightedColor: UIColor?
+   @objc open var tokenBackgroundHighlightedColor: UIColor?
    
    /// Token background color in selected state. It doesn't have effect if 'tokenBackgroundHighlightedColor' is set
-   open var darkRatio: CGFloat = 0.75
+   @objc open var darkRatio: CGFloat = 0.75
    
    /// Token border width
-   open var borderWidth: CGFloat = 0.0
+   @objc open var borderWidth: CGFloat = 0.0
    
    ///Token border color
-   open var borderColor: UIColor = UIColor.black
+   @objc open var borderColor: UIColor = UIColor.black
     
 //   open let crossLabel = UILabel()
    
    /// default is 200. Maximum width of token. After maximum limit is reached title is truncated at end with '...'
    fileprivate var _maxWidth: CGFloat? = 200
-   open var maxWidth: CGFloat {
+   @objc open var maxWidth: CGFloat {
       get{
          return _maxWidth!
       }
@@ -99,15 +99,15 @@ open class KSToken : UIControl {
    //MARK: - Constructors
    //__________________________________________________________________________________
    //
-   convenience required public init(coder aDecoder: NSCoder) {
+   @objc convenience required public init(coder aDecoder: NSCoder) {
       self.init(title: "")
    }
    
-   convenience public init(title: String) {
+   @objc convenience public init(title: String) {
       self.init(title: title, object: title as AnyObject?);
    }
    
-   public init(title: String, object: AnyObject?) {
+   @objc public init(title: String, object: AnyObject?) {
       self.title = title
       self.object = object
       super.init(frame: CGRect.zero)
@@ -170,8 +170,8 @@ open class KSToken : UIControl {
       let rectangleStyle = NSMutableParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
       rectangleStyle.lineBreakMode = NSLineBreakMode.byTruncatingTail
       rectangleStyle.alignment = NSTextAlignment.center
-      let rectangleFontAttributes = [NSFontAttributeName: font, NSForegroundColorAttributeName: textColor, NSParagraphStyleAttributeName: rectangleStyle] as [String : Any]
-      
+      let rectangleFontAttributes = [NSAttributedStringKey.font: font, NSAttributedStringKey.foregroundColor: textColor, NSAttributedStringKey.paragraphStyle: rectangleStyle] 
+	
       let maxDrawableHeight = max(rect.height , font.lineHeight)
       let textHeight: CGFloat = KSUtils.getRect(rectangleTextContent as NSString, width: rect.width, height: maxDrawableHeight , font: font).size.height
       
